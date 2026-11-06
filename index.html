@@ -102,8 +102,27 @@
   #replay:hover { opacity: 1; }
   .credit { right: 16px; text-decoration: none; transition: background .3s, border-color .3s; backdrop-filter: blur(6px); }
   .credit span { color: var(--gold); }
+  .contact {
+    position: absolute; left: 50%; bottom: 18px; transform: translate(-50%, 10px); z-index: 5;
+    display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+    font-family: "Rajdhani", sans-serif; font-weight: 600; font-size: 15px; letter-spacing: .06em;
+    opacity: 0; transition: opacity 1s, transform 1s; pointer-events: none;
+  }
+  .contact.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+  .contact a {
+    color: #dfe7f7; text-decoration: none; padding: 6px 12px; border-radius: 999px;
+    background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.14); transition: border-color .3s, color .3s;
+  }
+  .contact a::before { content: "✉ "; color: var(--gold); }
+  .contact a:hover { color: #fff; border-color: rgba(255,210,74,.6); }
+  @media (max-width: 760px) {
+    .contact { bottom: 52px; font-size: 12px; gap: 6px; width: calc(100% - 24px); flex-wrap: nowrap; letter-spacing: .02em; }
+    .contact a { padding: 5px 9px; white-space: nowrap; }
+  }
   @media (max-width: 480px) {
-    #soundHint, #replay, .credit { font-size: 12px; padding: 6px 10px; letter-spacing: .04em; bottom: 12px; }
+    #soundHint, #replay, .credit { font-size: 12px; padding: 6px 10px; letter-spacing: .04em; }
+    #replay, .credit { bottom: 12px; }
+    #soundHint { top: 12px; right: 12px; }
     #replay { left: 12px; } .credit { right: 12px; }
   }
   .credit:hover { background: rgba(255,210,74,.14); border-color: rgba(255,210,74,.6); }
@@ -238,6 +257,10 @@
 
 <div id="soundHint">🔊 Tap anywhere for sound</div>
 <button id="replay">↻ Replay</button>
+<div class="contact" id="contact">
+  <a href="mailto:admin@drivevis.com">admin@drivevis.com</a>
+  <a href="mailto:support@drivevis.com">support@drivevis.com</a>
+</div>
 <a class="credit" href="https://malnadwebs.online/" target="_blank" rel="noopener">Creating by <span>Malnad Webs</span></a>
 
 <script>
@@ -392,6 +415,7 @@ function revealRoad() {
   setTimeout(() => {
     $("rtTop").classList.add("glow"); $("rtBottom").classList.add("glow");
     $("replay").classList.add("show");
+    $("contact").classList.add("show");
   }, botStart + bot.length * 130 + 1100);
 }
 
@@ -485,7 +509,7 @@ function driveOut(fromX, done) {
 
 /* ---------- run ---------- */
 function run() {
-  $("replay").classList.remove("show"); $("tag").classList.remove("show");
+  $("replay").classList.remove("show"); $("contact").classList.remove("show"); $("tag").classList.remove("show");
   kctx.clearRect(0, 0, skidC.width, skidC.height); particles = [];
   fillRoad($("rtTop"), ""); fillRoad($("rtBottom"), "");
   car.style.transform = "translateX(-120vw)";
